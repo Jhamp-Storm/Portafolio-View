@@ -6,7 +6,353 @@
 <title>Portafolio Virtual Multidisciplinario</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<style>
+/* =========================================================
+   PORTAFOLIO VIRTUAL DINAMICO — ESTILOS
+   Cada carrera define su propia paleta mediante [data-theme]
+   sobre <body>. El resto de la hoja usa siempre var(--...).
+   ========================================================= */
+
+:root {
+  --font-display: "Fraunces", serif;
+  --font-body: "Work Sans", sans-serif;
+  --radius: 6px;
+  --shadow: none;
+}
+
+/* ---- Tema: Ingeniería y Tecnología (azul acero) ---- */
+[data-theme="ingenieria"] {
+  --accent: #2C6E8C;
+  --accent-soft: #DCEAF1;
+  --accent-2: #E8A33D;
+  --bg: #F5F8FA;
+  --surface: #FFFFFF;
+  --text: #16232E;
+  --text-soft: #52626F;
+  --border: #D7E1E8;
+  --hero-pattern:
+    repeating-linear-gradient(0deg, rgba(44,110,140,.08) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, rgba(44,110,140,.08) 0 1px, transparent 1px 28px);
+}
+
+/* ---- Tema: Medicina y Ciencias de la Salud (verde clínico) ---- */
+[data-theme="salud"] {
+  --accent: #1E8F72;
+  --accent-soft: #DBF1EA;
+  --accent-2: #D4562B;
+  --bg: #F3FBF8;
+  --surface: #FFFFFF;
+  --text: #15271F;
+  --text-soft: #4C6459;
+  --border: #CBE6DA;
+  --hero-pattern:
+    repeating-linear-gradient(100deg, transparent 0 60px, rgba(30,143,114,.10) 60px 62px, transparent 62px 120px);
+}
+
+/* ---- Tema: Derecho (granate y oro) ---- */
+[data-theme="derecho"] {
+  --accent: #7A1F2B;
+  --accent-soft: #F0DFDD;
+  --accent-2: #C9A227;
+  --bg: #FBF6F2;
+  --surface: #FFFFFF;
+  --text: #241414;
+  --text-soft: #6B5750;
+  --border: #E3D2C8;
+  --hero-pattern:
+    repeating-linear-gradient(0deg, rgba(122,31,43,.08) 0 1px, transparent 1px 22px);
+}
+
+/* ---- Tema: Arte y Humanidades (violeta y ocre) ---- */
+[data-theme="humanidades"] {
+  --accent: #7A3E9D;
+  --accent-soft: #ECE0F3;
+  --accent-2: #E0863A;
+  --bg: #FAF6FB;
+  --surface: #FFFFFF;
+  --text: #221626;
+  --text-soft: #6B5C72;
+  --border: #E4D3EC;
+  --hero-pattern:
+    radial-gradient(circle at 15% 40%, rgba(122,62,157,.14) 0 2px, transparent 3px),
+    radial-gradient(circle at 65% 70%, rgba(224,134,58,.14) 0 2px, transparent 3px),
+    radial-gradient(circle at 85% 20%, rgba(122,62,157,.14) 0 2px, transparent 3px);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  transition: background .35s ease, color .35s ease;
+}
+
+/* ---------------- Encabezado ---------------- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 18px 28px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand { display: flex; align-items: center; gap: 14px; }
+
+.brand-mark {
+  width: 42px; height: 42px;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 700;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+}
+
+.brand-text h1 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  margin: 0;
+  color: var(--text);
+}
+.brand-text p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
+.topbar-controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+.career-select-wrap { display: flex; flex-direction: column; font-size: 12px; color: var(--text-soft); }
+.career-select-wrap select {
+  margin-top: 3px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+
+/* ---------------- Botones ---------------- */
+.btn-outline, .btn-solid, .link-btn, .btn-icon {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border-radius: var(--radius);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 9px 16px;
+  font-size: 14px;
+}
+.btn-outline:hover { background: var(--accent-soft); }
+
+.btn-solid {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  color: #fff;
+  padding: 10px 18px;
+  font-size: 14px;
+  width: 100%;
+  margin-top: 6px;
+}
+.btn-solid:hover { filter: brightness(1.08); }
+
+.link-btn {
+  background: none; border: none;
+  color: var(--accent);
+  text-decoration: underline;
+  padding: 0; font-size: 13px;
+}
+
+.btn-icon {
+  background: none; border: none; font-size: 16px; color: var(--text-soft);
+}
+
+/* ---------------- Hero ---------------- */
+.hero {
+  padding: 48px 28px;
+  background-color: var(--surface);
+  background-image: var(--hero-pattern);
+  border-bottom: 1px solid var(--border);
+}
+.hero h2 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 42px);
+  margin: 0 0 8px;
+  max-width: 640px;
+}
+.hero p { margin: 0; color: var(--text-soft); font-size: 15px; max-width: 480px; }
+
+/* ---------------- Pestañas de filtro ---------------- */
+.tabs {
+  display: flex;
+  gap: 6px;
+  padding: 16px 28px 0;
+  flex-wrap: wrap;
+}
+.tab {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+.tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ---------------- Grilla de recursos ---------------- */
+.resource-grid {
+  padding: 24px 28px 56px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.empty-state { color: var(--text-soft); font-size: 14px; grid-column: 1 / -1; }
+
+.resource-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.resource-type-tag {
+  font-size: 11px;
+  letter-spacing: .02em;
+  color: var(--accent);
+  font-weight: 600;
+}
+.resource-card h3 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  margin: 0;
+}
+.resource-card p {
+  font-size: 13px;
+  color: var(--text-soft);
+  margin: 0;
+  flex-grow: 1;
+}
+.resource-actions { display: flex; gap: 10px; align-items: center; }
+.resource-actions a, .resource-actions button {
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+.resource-actions .danger { color: var(--accent-2); margin-left: auto; }
+
+/* ---------------- Reproductor de audio ---------------- */
+.audio-player {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--surface);
+  border-top: 2px solid var(--accent);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  z-index: 40;
+}
+.audio-player-info { display: flex; flex-direction: column; min-width: 140px; }
+.audio-player-info span { font-size: 12px; color: var(--text-soft); }
+.audio-player audio { flex-grow: 1; min-width: 200px; }
+.hidden { display: none !important; }
+
+/* ---------------- Modales ---------------- */
+.modal {
+  position: fixed; inset: 0;
+  background: rgba(20, 20, 20, .45);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 60;
+  padding: 20px;
+}
+.modal-box {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 28px;
+  width: 100%;
+  max-width: 380px;
+  position: relative;
+}
+.modal-box-wide { max-width: 620px; max-height: 86vh; overflow-y: auto; }
+.modal-close {
+  position: absolute; top: 14px; right: 14px;
+  background: none; border: none; font-size: 16px; color: var(--text-soft); cursor: pointer;
+}
+.modal h3 {
+  font-family: var(--font-display);
+  margin: 0 0 6px;
+}
+.modal-hint { font-size: 13px; color: var(--text-soft); margin: 0 0 16px; }
+.modal-switch { font-size: 13px; color: var(--text-soft); margin-top: 14px; }
+
+form label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-soft);
+  margin-bottom: 12px;
+}
+form input, form select, form textarea {
+  width: 100%;
+  margin-top: 5px;
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+}
+.upload-row { display: flex; gap: 12px; }
+.upload-row label { flex: 1; }
+
+.form-error { color: #B3261E; font-size: 13px; min-height: 16px; margin: 0 0 4px; }
+.form-ok { color: var(--accent); font-size: 13px; min-height: 16px; margin: 0 0 4px; }
+
+.admin-resource-list { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-direction: column; gap: 8px; }
+.admin-resource-list li {
+  display: flex; justify-content: space-between; align-items: center;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 8px 12px; font-size: 13px;
+}
+.admin-resource-list button { background: none; border: none; color: var(--accent-2); cursor: pointer; font-size: 13px; }
+
+/* ---------------- Responsivo ---------------- */
+@media (max-width: 640px) {
+  .topbar { padding: 14px 16px; }
+  .hero { padding: 32px 16px; }
+  .tabs { padding: 14px 16px 0; }
+  .resource-grid { padding: 18px 16px 80px; grid-template-columns: 1fr; }
+  .audio-player { padding: 10px 14px; }
+}
+
+</style>
 </head>
 <body>
 
@@ -29,3 +375,551 @@
           <option value="humanidades">Arte y Humanidades</option>
         </select>
       </label>
+
+      <div id="auth-area">
+        <button id="btn-login" class="btn-outline">Iniciar sesión</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2 id="hero-title">Ingeniería y Tecnología</h2>
+      <p id="hero-desc">Proyectos, documentación técnica y recursos de la carrera.</p>
+    </section>
+
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-filter="todos">Todos</button>
+      <button class="tab" data-filter="pdf">Documentos</button>
+      <button class="tab" data-filter="imagen">Imágenes</button>
+      <button class="tab" data-filter="audio">Audio</button>
+      <button class="tab" data-filter="enlace">Enlaces</button>
+    </nav>
+
+    <section id="resource-grid" class="resource-grid">
+      <!-- Las tarjetas de recursos se insertan aquí desde app.js -->
+      <p class="empty-state" id="empty-state">Cargando recursos...</p>
+    </section>
+  </main>
+
+  <!-- Reproductor de audio persistente -->
+  <div id="audio-player" class="audio-player hidden">
+    <div class="audio-player-info">
+      <strong id="audio-title">—</strong>
+      <span id="audio-category">—</span>
+    </div>
+    <audio id="audio-element" controls></audio>
+    <button id="audio-close" class="btn-icon" aria-label="Cerrar reproductor">✕</button>
+  </div>
+
+  <!-- Modal de inicio de sesión -->
+  <div id="login-modal" class="modal hidden">
+    <div class="modal-box">
+      <button class="modal-close" data-close="login-modal">✕</button>
+      <h3>Iniciar sesión</h3>
+      <p class="modal-hint">Los visualizadores no necesitan cuenta. Inicia sesión solo si administras el contenido.</p>
+      <form id="login-form">
+        <label>Correo
+          <input type="email" id="login-email" required>
+        </label>
+        <label>Contraseña
+          <input type="password" id="login-password" required>
+        </label>
+        <p class="form-error" id="login-error"></p>
+        <button type="submit" class="btn-solid">Ingresar</button>
+      </form>
+      <p class="modal-switch">¿No tienes cuenta? <button id="show-register" class="link-btn">Regístrate</button></p>
+    </div>
+  </div>
+
+  <!-- Modal de registro -->
+  <div id="register-modal" class="modal hidden">
+    <div class="modal-box">
+      <button class="modal-close" data-close="register-modal">✕</button>
+      <h3>Crear cuenta</h3>
+      <form id="register-form">
+        <label>Nombre completo
+          <input type="text" id="register-name" required>
+        </label>
+        <label>Correo
+          <input type="email" id="register-email" required>
+        </label>
+        <label>Contraseña
+          <input type="password" id="register-password" required minlength="6">
+        </label>
+        <p class="form-error" id="register-error"></p>
+        <button type="submit" class="btn-solid">Crear cuenta</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Panel de administración -->
+  <div id="admin-panel" class="modal hidden">
+    <div class="modal-box modal-box-wide">
+      <button class="modal-close" data-close="admin-panel">✕</button>
+      <h3>Panel de administración</h3>
+
+      <form id="upload-form" class="upload-form">
+        <label>Título
+          <input type="text" id="upload-title" required>
+        </label>
+        <label>Descripción
+          <textarea id="upload-desc" rows="2"></textarea>
+        </label>
+        <div class="upload-row">
+          <label>Carrera
+            <select id="upload-category">
+              <option value="ingenieria">Ingeniería y Tecnología</option>
+              <option value="salud">Medicina y Ciencias de la Salud</option>
+              <option value="derecho">Derecho</option>
+              <option value="humanidades">Arte y Humanidades</option>
+            </select>
+          </label>
+          <label>Tipo de recurso
+            <select id="upload-type">
+              <option value="pdf">PDF</option>
+              <option value="docx">Word (.docx)</option>
+              <option value="imagen">Imagen</option>
+              <option value="audio">Audio</option>
+              <option value="enlace">Enlace externo</option>
+            </select>
+          </label>
+        </div>
+
+        <label id="upload-file-wrap">Archivo
+          <input type="file" id="upload-file">
+        </label>
+        <label id="upload-link-wrap" class="hidden">URL del enlace
+          <input type="url" id="upload-link" placeholder="https://...">
+        </label>
+
+        <p class="form-error" id="upload-error"></p>
+        <p class="form-ok" id="upload-ok"></p>
+        <button type="submit" class="btn-solid">Publicar recurso</button>
+      </form>
+
+      <h4>Recursos existentes</h4>
+      <ul id="admin-resource-list" class="admin-resource-list"></ul>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+// =========================================================
+// PORTAFOLIO VIRTUAL DINAMICO — LOGICA DE APLICACION
+// Requiere @supabase/supabase-js (cargado en index.html)
+// =========================================================
+
+// --- 1. CONEXION A SUPABASE -------------------------------
+// Reemplaza estos dos valores por los de tu proyecto:
+// Supabase Dashboard > Project Settings > API
+const SUPABASE_URL = "https://TU-PROYECTO.supabase.co";
+const SUPABASE_ANON_KEY = "TU-ANON-KEY-PUBLICA";
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const BUCKET = "portfolio-files";
+
+// --- 2. DATOS DE TEMATIZACION POR CARRERA -----------------
+const CAREERS = {
+  ingenieria: {
+    title: "Ingeniería y Tecnología",
+    subtitle: "Proyectos, documentación técnica y recursos de la carrera.",
+  },
+  salud: {
+    title: "Medicina y Ciencias de la Salud",
+    subtitle: "Casos clínicos, guías y material audiovisual de la carrera.",
+  },
+  derecho: {
+    title: "Derecho",
+    subtitle: "Jurisprudencia, ensayos y recursos normativos de la carrera.",
+  },
+  humanidades: {
+    title: "Arte y Humanidades",
+    subtitle: "Obras, ensayos y producciones culturales de la carrera.",
+  },
+};
+
+const TYPE_LABELS = {
+  pdf: "PDF",
+  docx: "Word",
+  imagen: "Imagen",
+  audio: "Audio",
+  enlace: "Enlace",
+};
+
+// --- 3. ESTADO EN MEMORIA ----------------------------------
+let state = {
+  career: "ingenieria",
+  filter: "todos",
+  resources: [],
+  session: null,
+  role: "viewer",
+};
+
+// --- 4. REFERENCIAS AL DOM ---------------------------------
+const el = (id) => document.getElementById(id);
+
+const careerSelect = el("career-select");
+const heroTitle = el("hero-title");
+const heroDesc = el("hero-desc");
+const siteSubtitle = el("site-subtitle");
+const resourceGrid = el("resource-grid");
+const emptyState = el("empty-state");
+const authArea = el("auth-area");
+const tabsNav = el("tabs");
+
+// --- 5. TEMATIZACION -----------------------------------------
+function applyTheme(careerKey) {
+  document.body.setAttribute("data-theme", careerKey);
+  document.documentElement.setAttribute("data-theme", careerKey);
+  const info = CAREERS[careerKey];
+  heroTitle.textContent = info.title;
+  heroDesc.textContent = info.subtitle;
+  siteSubtitle.textContent = info.title;
+}
+
+careerSelect.addEventListener("change", (e) => {
+  state.career = e.target.value;
+  applyTheme(state.career);
+  renderResources();
+});
+
+// --- 6. CARGA Y RENDER DE RECURSOS ---------------------------
+async function loadResources() {
+  const { data, error } = await supabase
+    .from("resources")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error cargando recursos:", error.message);
+    emptyState.textContent = "No se pudieron cargar los recursos.";
+    return;
+  }
+  state.resources = data;
+  renderResources();
+  if (state.role === "admin") renderAdminList();
+}
+
+function renderResources() {
+  const filtered = state.resources.filter((r) => {
+    const matchesCareer = r.category === state.career;
+    const matchesFilter = state.filter === "todos" || r.file_type === state.filter;
+    return matchesCareer && matchesFilter;
+  });
+
+  resourceGrid.innerHTML = "";
+
+  if (filtered.length === 0) {
+    resourceGrid.appendChild(emptyState);
+    emptyState.textContent = "Todavía no hay recursos en esta categoría.";
+    emptyState.classList.remove("hidden");
+    return;
+  }
+
+  filtered.forEach((r) => resourceGrid.appendChild(buildResourceCard(r)));
+}
+
+function buildResourceCard(resource) {
+  const card = document.createElement("article");
+  card.className = "resource-card";
+
+  const tag = document.createElement("span");
+  tag.className = "resource-type-tag";
+  tag.textContent = TYPE_LABELS[resource.file_type] || resource.file_type;
+
+  const title = document.createElement("h3");
+  title.textContent = resource.title;
+
+  const desc = document.createElement("p");
+  desc.textContent = resource.description || "";
+
+  const actions = document.createElement("div");
+  actions.className = "resource-actions";
+
+  if (resource.file_type === "audio") {
+    const playBtn = document.createElement("button");
+    playBtn.textContent = "▶ Reproducir";
+    playBtn.addEventListener("click", () => playAudio(resource));
+    actions.appendChild(playBtn);
+  } else if (resource.file_type === "imagen") {
+    const viewLink = document.createElement("a");
+    viewLink.href = resource.file_url;
+    viewLink.target = "_blank";
+    viewLink.rel = "noopener";
+    viewLink.textContent = "Ver imagen";
+    actions.appendChild(viewLink);
+  } else if (resource.file_type === "enlace") {
+    const openLink = document.createElement("a");
+    openLink.href = resource.file_url;
+    openLink.target = "_blank";
+    openLink.rel = "noopener";
+    openLink.textContent = "Abrir enlace ↗";
+    actions.appendChild(openLink);
+  } else {
+    const openLink = document.createElement("a");
+    openLink.href = resource.file_url;
+    openLink.target = "_blank";
+    openLink.rel = "noopener";
+    openLink.textContent = "Abrir / Descargar";
+    actions.appendChild(openLink);
+  }
+
+  if (state.role === "admin") {
+    const delBtn = document.createElement("button");
+    delBtn.className = "danger";
+    delBtn.textContent = "Eliminar";
+    delBtn.addEventListener("click", () => deleteResource(resource));
+    actions.appendChild(delBtn);
+  }
+
+  card.append(tag, title, desc, actions);
+  return card;
+}
+
+tabsNav.addEventListener("click", (e) => {
+  if (!e.target.matches(".tab")) return;
+  tabsNav.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
+  e.target.classList.add("active");
+  state.filter = e.target.dataset.filter;
+  renderResources();
+});
+
+// --- 7. REPRODUCTOR DE AUDIO --------------------------------
+const player = el("audio-player");
+const audioEl = el("audio-element");
+const audioTitle = el("audio-title");
+const audioCategory = el("audio-category");
+
+function playAudio(resource) {
+  audioEl.src = resource.file_url;
+  audioTitle.textContent = resource.title;
+  audioCategory.textContent = CAREERS[resource.category].title;
+  player.classList.remove("hidden");
+  audioEl.play();
+}
+
+el("audio-close").addEventListener("click", () => {
+  audioEl.pause();
+  player.classList.add("hidden");
+});
+
+// --- 8. MODALES GENERICOS ------------------------------------
+function openModal(id) { el(id).classList.remove("hidden"); }
+function closeModal(id) { el(id).classList.add("hidden"); }
+
+document.querySelectorAll("[data-close]").forEach((btn) => {
+  btn.addEventListener("click", () => closeModal(btn.dataset.close));
+});
+
+el("btn-login").addEventListener("click", () => openModal("login-modal"));
+el("show-register").addEventListener("click", () => {
+  closeModal("login-modal");
+  openModal("register-modal");
+});
+
+// --- 9. AUTENTICACION -----------------------------------------
+el("login-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = el("login-email").value;
+  const password = el("login-password").value;
+  const errorBox = el("login-error");
+  errorBox.textContent = "";
+
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) {
+    errorBox.textContent = "Credenciales inválidas.";
+    return;
+  }
+  closeModal("login-modal");
+  e.target.reset();
+});
+
+el("register-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const full_name = el("register-name").value;
+  const email = el("register-email").value;
+  const password = el("register-password").value;
+  const errorBox = el("register-error");
+  errorBox.textContent = "";
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: { data: { full_name } },
+  });
+  if (error) {
+    errorBox.textContent = error.message;
+    return;
+  }
+  closeModal("register-modal");
+  e.target.reset();
+  alert("Cuenta creada. Revisa tu correo si tu proyecto requiere confirmación, luego inicia sesión.");
+});
+
+async function handleAuthChange(session) {
+  state.session = session;
+
+  if (!session) {
+    state.role = "viewer";
+    renderAuthArea();
+    renderResources();
+    return;
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role, full_name")
+    .eq("id", session.user.id)
+    .single();
+
+  state.role = profile?.role || "viewer";
+  state.profileName = profile?.full_name || session.user.email;
+  renderAuthArea();
+  renderResources();
+}
+
+function renderAuthArea() {
+  authArea.innerHTML = "";
+
+  if (!state.session) {
+    const btn = document.createElement("button");
+    btn.className = "btn-outline";
+    btn.textContent = "Iniciar sesión";
+    btn.addEventListener("click", () => openModal("login-modal"));
+    authArea.appendChild(btn);
+    return;
+  }
+
+  const label = document.createElement("span");
+  label.style.fontSize = "13px";
+  label.style.marginRight = "10px";
+  label.textContent = `${state.profileName} (${state.role})`;
+
+  authArea.appendChild(label);
+
+  if (state.role === "admin") {
+    const adminBtn = document.createElement("button");
+    adminBtn.className = "btn-outline";
+    adminBtn.textContent = "Panel admin";
+    adminBtn.style.marginRight = "8px";
+    adminBtn.addEventListener("click", () => {
+      openModal("admin-panel");
+      renderAdminList();
+    });
+    authArea.appendChild(adminBtn);
+  }
+
+  const logoutBtn = document.createElement("button");
+  logoutBtn.className = "btn-outline";
+  logoutBtn.textContent = "Salir";
+  logoutBtn.addEventListener("click", async () => {
+    await supabase.auth.signOut();
+  });
+  authArea.appendChild(logoutBtn);
+}
+
+supabase.auth.onAuthStateChange((_event, session) => handleAuthChange(session));
+
+// --- 10. PANEL DE ADMINISTRACION: SUBIDA DE RECURSOS -----------
+el("upload-type").addEventListener("change", (e) => {
+  const isLink = e.target.value === "enlace";
+  el("upload-file-wrap").classList.toggle("hidden", isLink);
+  el("upload-link-wrap").classList.toggle("hidden", !isLink);
+});
+
+el("upload-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const errorBox = el("upload-error");
+  const okBox = el("upload-ok");
+  errorBox.textContent = "";
+  okBox.textContent = "";
+
+  const title = el("upload-title").value;
+  const description = el("upload-desc").value;
+  const category = el("upload-category").value;
+  const file_type = el("upload-type").value;
+
+  try {
+    let file_url;
+
+    if (file_type === "enlace") {
+      file_url = el("upload-link").value;
+      if (!file_url) throw new Error("Ingresa una URL válida.");
+    } else {
+      const fileInput = el("upload-file");
+      const file = fileInput.files[0];
+      if (!file) throw new Error("Selecciona un archivo.");
+
+      const path = `${category}/${Date.now()}-${file.name}`;
+      const { error: uploadError } = await supabase.storage
+        .from(BUCKET)
+        .upload(path, file);
+      if (uploadError) throw uploadError;
+
+      const { data: publicUrlData } = supabase.storage
+        .from(BUCKET)
+        .getPublicUrl(path);
+      file_url = publicUrlData.publicUrl;
+    }
+
+    const { error: insertError } = await supabase.from("resources").insert({
+      title,
+      description,
+      category,
+      file_type,
+      file_url,
+      created_by: state.session.user.id,
+    });
+    if (insertError) throw insertError;
+
+    okBox.textContent = "Recurso publicado correctamente.";
+    e.target.reset();
+    el("upload-file-wrap").classList.remove("hidden");
+    el("upload-link-wrap").classList.add("hidden");
+    loadResources();
+  } catch (err) {
+    errorBox.textContent = err.message || "No se pudo publicar el recurso.";
+  }
+});
+
+function renderAdminList() {
+  const list = el("admin-resource-list");
+  list.innerHTML = "";
+  state.resources.forEach((r) => {
+    const li = document.createElement("li");
+    const label = document.createElement("span");
+    label.textContent = `[${CAREERS[r.category].title}] ${r.title}`;
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "Eliminar";
+    delBtn.addEventListener("click", () => deleteResource(r));
+    li.append(label, delBtn);
+    list.appendChild(li);
+  });
+}
+
+async function deleteResource(resource) {
+  if (!confirm(`¿Eliminar "${resource.title}"?`)) return;
+  const { error } = await supabase.from("resources").delete().eq("id", resource.id);
+  if (error) {
+    alert("No se pudo eliminar: " + error.message);
+    return;
+  }
+  loadResources();
+}
+
+// --- 11. INICIALIZACION -----------------------------------------
+async function init() {
+  applyTheme(state.career);
+
+  const { data: { session } } = await supabase.auth.getSession();
+  await handleAuthChange(session);
+
+  await loadResources();
+}
+
+init();
+
+</script>
+</body>
+</html>
